@@ -1,21 +1,19 @@
-extends Node2D
+class_name GameManger extends Node2D
+
+static var score : int = 0
 
 # Awake
 func _init() -> void:
+	print_debug("Game Started")
+	score = 0
 	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print_debug("Game Started")
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if (Input.is_action_just_pressed("Shoot")) : print_debug("Shot")
-	if (Input.is_action_just_pressed("Up")) : print_debug("Up")
-	if (Input.is_action_just_pressed("Down")) : print_debug("Down")
-	if (Input.is_action_just_pressed("Left")) : print_debug("Left")
-	if (Input.is_action_just_pressed("Right")) : print_debug("Right")
 	pass
 
 # Fixed Update
