@@ -1,4 +1,4 @@
-class_name Asteroid extends RigidBody2D
+class_name NormalAsteroid extends A_Asteroid
 
 enum Size
 {
@@ -6,55 +6,45 @@ enum Size
 }
 
 @export var size : Size = Size.Big
-@export var child : PackedScene
 
-func _validate_scale() -> void:
+# Called when the node enters the scene tree for the first time.
+func _valid_size() -> void:
 	var set_scale = 0
 	
 	if size == Size.Big: set_scale = 1
-	elif size == Size.Medium: set_scale = 0.5
-	else: set_scale = 0.3
-	
-	#for child in get_children():
-		#(child as Node2D).global_scale *= get_scale
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	if size == Size.Big:
-		global_scale = Vector2.ONE
 	elif size == Size.Medium:
-		global_scale = Vector2.ONE/2
+		set_scale = 0.5
 	else:
-		global_scale = Vector2.ONE/3
-pass # Replace with function body.
+		set_scale = 0.3
+		
+	for child in get_children():
+		(child as Node2D).global_scale *= set_scale
+	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func _physics_process(delta: float) -> void:
-	var colliders = get_colliding_bodies()
-	for obj in colliders:
-		if !(obj is Ship): continue
-		(obj as Ship)._take_dmg()
-	pass
-
-func _take_dmg() -> void:
-	#GameManager.score += 10
-	
+func on_dmg_tkn() -> void:
 	if size == Size.Small:
 		queue_free()
 		return
 	
-	var newAsteroid1 = duplicate() as Asteroid
-	var newASteroid2 = duplicate() as Asteroid
-	get_parent().add_child(newAsteroid1)
-	get_parent().add_child(newASteroid2)
+	var newAteroid1 = duplicate() as NormalAsteroid
+	var newAteroid2 = duplicate() as NormalAsteroid
+	get_parent().add_child(newAteroid1)
+	get_parent().add_child(newAteroid2)
 	
 	var newSize = Size.Medium
-	#if size == Size.Medium:
-		
+	if size == Size.Medium: newSize = Size.Small
 	
+	newAteroid1.size = newSize
+	newAteroid2.size = newSize
+	
+	newAteroid1._valid_size() 
+	newAteroid2._valid_size() 
+	
+	var offset = Vector2.RIGHT * 100
+	
+	newAteroid1.global_position = global_position + offset
+	newAteroid2.global_position = global_position - offset
+	
+	queue_free()
 	pass
+	

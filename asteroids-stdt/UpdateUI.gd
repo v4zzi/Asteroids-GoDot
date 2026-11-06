@@ -1,6 +1,5 @@
 extends Node
-
-@export var ScoreDisplayed : TextEdit
+@export var ScoreDisplay : TextEdit
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -9,5 +8,5 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	#ScoreDisplayed.text = "Score: " + str(GameManger.score)
+	ScoreDisplay.text = "Score: " + str(GameManager.score)
 	pass

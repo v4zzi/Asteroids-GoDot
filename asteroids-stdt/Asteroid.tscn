@@ -10,6 +10,7 @@ radius = 66.068146
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_n00aa")
+size = null
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=667080598]
 texture = ExtResource("1_l7pm1")
