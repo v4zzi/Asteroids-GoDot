@@ -1,23 +1,23 @@
-extends Node2D
+class_name GameManager extends Node2D
+static  var score: int = 0
 
 # Awake
 func _init() -> void:
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
 	print_debug("Game Started")
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if (Input.is_action_just_pressed("Shoot")) : print_debug("Shot")
-	if (Input.is_action_just_pressed("Up")) : print_debug("Up")
-	if (Input.is_action_just_pressed("Down")) : print_debug("Down")
-	if (Input.is_action_just_pressed("Left")) : print_debug("Left")
-	if (Input.is_action_just_pressed("Right")) : print_debug("Right")
+	score = 0
 	pass
 
-# Fixed Update
-func _physics_process(delta: float) -> void:
+
+#Start
+func _ready() -> void:
+	
+	pass 
+
+
+# Update
+func _process(delta: float) -> void:
+
+	pass
+#Fixed Update
+func _physics_proccess(delete: float) -> void: 
 	pass
