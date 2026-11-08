@@ -7,6 +7,7 @@
 radius = 66.068146
 
 [node name="Asteroid" type="RigidBody2D" unique_id=1880467086]
+gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_n00aa")

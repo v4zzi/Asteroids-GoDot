@@ -1,74 +1,90 @@
 class_name Ship extends RigidBody2D
 
 @export_range(1, 5) var hitPoints = 3
-#los layers son los que mencionan a un objeto en especifico como funcionar, es decir que el 1 es la nave, el 2 es la bala y el 3 el asteroide
-#las mascaras son con quienes quieres interactuar, la nave quiere con el asteroide así que solo 3, pero el asteroide con la bala y la nave asi que es 1 y 2
 @export_range(200,800, 5) var speed : float = 600
 
 @export_category("Shooting")
-@export var bullet: PackedScene #export es como el serializefield
-@export var pivot: Node2D
+@export var bullet: PackedScene 
+
+# Como tu Pivot está dentro de Sprite2D, podemos referenciarlo automáticamente con @onready
+@onready var sprite_visual: Sprite2D = $Sprite2D
+@onready var pivot: Node2D = $Sprite2D/Pivot
 
 var initPos = Vector2.ZERO
 var iFrames = 0
-# start
+
+# Start
 func _ready() -> void:
 	initPos = global_position
-	pass 
+	
+	contact_monitor = true
+	max_contacts_reported = 4
+	
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
 
-#Update
+# Update
 func _process(delta: float) -> void:
-	if global_position.x >= 1152 - 28:
-		global_position.x = 0 + 30
-	if global_position.x <= 0 + 28:
-		global_position.x = 1152 -30
-	if global_position.y >= 648 - 28:
-		global_position.y = 0 + 30
-	if global_position.y <= 0 + 28:
-		global_position.y = 648 - 30
-	pass
+	# Pantalla toroidal (cruzar los bordes)
+	if global_position.x >= 1152 - 28: global_position.x = 0 + 30
+	if global_position.x <= 0 + 28: global_position.x = 1152 - 30
+	if global_position.y >= 648 - 28: global_position.y = 0 + 30
+	if global_position.y <= 0 + 28: global_position.y = 648 - 30
+	
+	# === APUNTAR AL MOUSE (Rotando únicamente el Sprite2D) ===
+	if sprite_visual:
+		sprite_visual.look_at(get_global_mouse_position())
+		sprite_visual.rotation += PI / 2 # Ajuste de 90 grados para que coincida con el sprite hacia arriba
 
-	#fixed update
+# Fixed Update
 func _physics_process(delta: float) -> void:
-	
 	if iFrames > 0:
-		contact_monitor = false
 		iFrames -= 1
-		pass
-	
-	
+		
 	if Input.is_action_just_pressed("Shoot"):
 		_shoot()
-	var direction: Vector2 = Input.get_vector("Left","Right","Up","Down").normalized() #var le da direccion para darle una direccion
+		
+	var direction: Vector2 = Input.get_vector("Left","Right","Up","Down").normalized()
 	linear_velocity = direction * speed
-	pass
+
+func _on_body_entered(body: Node) -> void:
+	if body is A_Asteroid:
+		_take_dmg()
+		body.take_dmg() 
 
 func _take_dmg() -> void:
 	if iFrames > 0: return
 	
-	hitPoints-=1
+	hitPoints -= 1
 	teleport(initPos)
 	linear_velocity = Vector2.ZERO
-	iFrames = 10
-	print_debug("Ship Damaged")
+	iFrames = 60 
 	
-	if hitPoints == 0:
+	var gm = get_tree().get_first_node_in_group("GameManager")
+	if gm:
+		gm.player_hit() 
+	
+	if hitPoints <= 0:
 		queue_free()
 		print_debug("Ship Destroyed")
-	
-	pass
 
 func _shoot() -> void:
-	var bulletobjt = (bullet.instantiate()) #as Bullet??????????
+	if bullet == null or pivot == null: return
+	
+	var bulletobjt = bullet.instantiate() as RigidBody2D
 	get_parent().add_child(bulletobjt)
+	
+	# La bala nace exactamente en la posición del Pivot (que ya rota con la nave)
 	bulletobjt.global_position = pivot.global_position
-	bulletobjt.linear_velocity = Vector2.UP * 1000
-	pass
+	
+	# Sale disparada hacia adelante según la rotación visual del Sprite2D
+	var shoot_dir = Vector2.UP.rotated(sprite_visual.global_rotation)
+	bulletobjt.linear_velocity = shoot_dir * 1000
+	bulletobjt.global_rotation = sprite_visual.global_rotation
 
 func teleport(pos : Vector2) -> void:
 	PhysicsServer2D.body_set_state(
-	get_rid(),
-	PhysicsServer2D.BODY_STATE_TRANSFORM,
-	Transform2D.IDENTITY.translated(pos)
+		get_rid(),
+		PhysicsServer2D.BODY_STATE_TRANSFORM,
+		Transform2D.IDENTITY.translated(pos)
 	)
-	pass

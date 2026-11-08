@@ -1,6 +1,6 @@
 class_name Bullet extends RigidBody2D
 
-var life_time : float = 1.5
+@export var life_time : float = 1.5
 
 func _ready() -> void:
 	body_entered.connect(dmg_asteroid)

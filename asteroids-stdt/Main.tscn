@@ -7,22 +7,37 @@
 
 [node name="Main" type="Node2D" unique_id=1713287040]
 script = ExtResource("1_glv2v")
+asteroid_scene = ExtResource("3_cm0pq")
 
 [node name="Ship" parent="." unique_id=630825740 instance=ExtResource("2_uu6xs")]
 position = Vector2(593, 551)
 contact_monitor = true
 max_contacts_reported = 1
+hitPoints = 2
 
-[node name="Asteroid" parent="." unique_id=1880467086 instance=ExtResource("3_cm0pq")]
-position = Vector2(596, 164)
-gravity_scale = 0.0
-size = 0
-
-[node name="UI" type="Node" parent="." unique_id=694593381 node_paths=PackedStringArray("ScoreDisplay")]
+[node name="UI" type="Node" parent="." unique_id=694593381]
 script = ExtResource("5_fos0i")
-ScoreDisplay = NodePath("ScoreDisplay")
 
 [node name="ScoreDisplay" type="TextEdit" parent="UI" unique_id=1896216561]
 offset_right = 239.0
 offset_bottom = 40.0
 text = "		SCORE:"
+
+[node name="Win Lose Panel" type="TextEdit" parent="UI" unique_id=325659300]
+offset_left = 431.0
+offset_top = 204.0
+offset_right = 761.0
+offset_bottom = 294.0
+text = "
+							  You Won"
+
+[node name="Win Lose Panel2" type="Label" parent="UI/Win Lose Panel" unique_id=692106078]
+layout_mode = 0
+offset_right = 332.0
+offset_bottom = 91.0
+text = "			
+		                  	             	You Won"
+
+[node name="GameManager" type="Node2D" parent="." unique_id=403251195]
+script = ExtResource("1_glv2v")
+metadata/_custom_type_script = "uid://cnas2dcwaakna"

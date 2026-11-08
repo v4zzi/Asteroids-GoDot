@@ -7,19 +7,19 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_61sci"]
 size = Vector2(129, 125)
 
-[node name="Ship" type="RigidBody2D" unique_id=630825740 node_paths=PackedStringArray("pivot")]
+[node name="Ship" type="RigidBody2D" unique_id=630825740]
 gravity_scale = 0.0
 script = ExtResource("1_xljvd")
 bullet = ExtResource("2_oam5h")
-pivot = NodePath("Pivot")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2008977810]
 scale = Vector2(0.7383847, 0.63829666)
 texture = ExtResource("2_h40nn")
 
+[node name="Pivot" type="Node2D" parent="Sprite2D" unique_id=466395181]
+position = Vector2(0, -109.66687)
+scale = Vector2(1.3543075, 1.5666696)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1698041828]
 scale = Vector2(0.7383847, 0.63829666)
 shape = SubResource("RectangleShape2D_61sci")
-
-[node name="Pivot" type="Node2D" parent="." unique_id=466395181]
-position = Vector2(0, -70)

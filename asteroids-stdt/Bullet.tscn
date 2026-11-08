@@ -11,6 +11,7 @@ gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_4s4u5")
+life_time = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1718153276]
 scale = Vector2(0.16000092, 0.40000033)
