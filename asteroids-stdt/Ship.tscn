@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bdvy6tkui1so5" path="res://ship.gd" id="1_xljvd"]
 [ext_resource type="Texture2D" uid="uid://csf3404t2s5a0" path="res://icon.svg" id="2_h40nn"]
-[ext_resource type="PackedScene" uid="uid://but57jbt4wxoo" path="res://Bullet.tscn" id="2_oam5h"]
+[ext_resource type="PackedScene" uid="uid://cggn6s3d3yreu" path="res://piercing_bullet.tscn" id="2_oam5h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_61sci"]
 size = Vector2(129, 125)
@@ -17,7 +17,7 @@ scale = Vector2(0.7383847, 0.63829666)
 texture = ExtResource("2_h40nn")
 
 [node name="Pivot" type="Node2D" parent="Sprite2D" unique_id=466395181]
-position = Vector2(0, -109.66687)
+position = Vector2(0, -130.03357)
 scale = Vector2(1.3543075, 1.5666696)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1698041828]

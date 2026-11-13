@@ -12,16 +12,14 @@ class_name Ship extends RigidBody2D
 
 var initPos = Vector2.ZERO
 var iFrames = 0
+var scene : Node2D
 
 # Start
 func _ready() -> void:
 	initPos = global_position
 	
-	contact_monitor = true
-	max_contacts_reported = 4
-	
-	if not body_entered.is_connected(_on_body_entered):
-		body_entered.connect(_on_body_entered)
+	scene = get_parent()
+	pass
 
 # Update
 func _process(delta: float) -> void:
@@ -38,6 +36,7 @@ func _process(delta: float) -> void:
 
 # Fixed Update
 func _physics_process(delta: float) -> void:
+	
 	if iFrames > 0:
 		iFrames -= 1
 		
@@ -56,22 +55,24 @@ func _take_dmg() -> void:
 	if iFrames > 0: return
 	
 	hitPoints -= 1
+	scene.add_child(self)
 	teleport(initPos)
 	linear_velocity = Vector2.ZERO
-	iFrames = 60 
-	
-	var gm = get_tree().get_first_node_in_group("GameManager")
-	if gm:
-		gm.player_hit() 
+	iFrames = 10
 	
 	if hitPoints <= 0:
 		queue_free()
 		print_debug("Ship Destroyed")
+	pass
+
+func despawn() -> void:
+	get_parent().remove_child(self)
+	pass
 
 func _shoot() -> void:
 	if bullet == null or pivot == null: return
 	
-	var bulletobjt = bullet.instantiate() as RigidBody2D
+	var bulletobjt = (bullet.instantiate() as ABullet)
 	get_parent().add_child(bulletobjt)
 	
 	# La bala nace exactamente en la posición del Pivot (que ya rota con la nave)
