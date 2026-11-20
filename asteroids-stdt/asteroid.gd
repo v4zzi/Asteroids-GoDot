@@ -9,6 +9,7 @@ enum Size
 
 # Called when the node enters the scene tree for the first time.
 func _valid_size() -> void:
+	@warning_ignore("shadowed_variable_base_class")
 	var set_scale = 0
 	
 	if size == Size.Big: set_scale = 1

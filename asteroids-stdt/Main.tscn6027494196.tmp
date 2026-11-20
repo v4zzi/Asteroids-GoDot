@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://l6arjdj1f0cg"]
+
+[ext_resource type="Script" uid="uid://duxle2ma52pv3" path="res://GameManager.gd" id="1_cm0pq"]
+[ext_resource type="PackedScene" uid="uid://73k0jnl5c00i" path="res://Ship.tscn" id="2_uu6xs"]
+[ext_resource type="PackedScene" uid="uid://dlbl2tr7kghrd" path="res://Asteroid.tscn" id="3_cm0pq"]
+[ext_resource type="PackedScene" uid="uid://6tg4vl6fxo6a" path="res://PowerUp/Power_Up.tscn" id="5_3dxm6"]
+[ext_resource type="Script" uid="uid://cuddebmy1x6au" path="res://UpdateUI.gd" id="5_fos0i"]
+
+[node name="Main" type="Node2D" unique_id=1713287040]
+script = ExtResource("1_cm0pq")
+asteroid_scene = ExtResource("3_cm0pq")
+
+[node name="Ship" parent="." unique_id=630825740 instance=ExtResource("2_uu6xs")]
+position = Vector2(593, 551)
+contact_monitor = true
+max_contacts_reported = 1
+hitPoints = 2
+
+[node name="UI" type="Node" parent="." unique_id=694593381]
+script = ExtResource("5_fos0i")
+
+[node name="ScoreDisplay" type="TextEdit" parent="UI" unique_id=1896216561]
+offset_right = 239.0
+offset_bottom = 40.0
+text = "		SCORE:"
+
+[node name="Win Lose Panel" type="TextEdit" parent="UI" unique_id=325659300]
+offset_left = 431.0
+offset_top = 204.0
+offset_right = 761.0
+offset_bottom = 294.0
+text = "
+							  You Won"
+
+[node name="Win Lose Panel2" type="Label" parent="UI/Win Lose Panel" unique_id=692106078]
+layout_mode = 0
+offset_right = 332.0
+offset_bottom = 91.0
+text = "			
+		                  	             	You Won"
+
+[node name="GameManager" type="Node2D" parent="." unique_id=403251195]
+script = ExtResource("1_cm0pq")
+asteroid_scene = ExtResource("2_uu6xs")
+
+[node name="PowerUp" parent="." unique_id=1899231538 instance=ExtResource("5_3dxm6")]
